@@ -112,6 +112,40 @@ class DoublyLinkedList {
 
 
   // get - get an item by index from the list
+  // Pseudocode
+  // if empty dll, return undefined
+  // if only one record, return head
+  // else create a temporary variable to count index
+  // create a temporary node variable
+  // if index less than half length start the loop from head else start from  tail until the correct index is arrive
+  // return the node
+  get(index) {
+    if (!this.head) return undefined
+    if (this.length === 1) return this.head
+    else {
+      let currentNode
+      if (index < Math.floor(this.length/2)) {
+        let counter = 0
+        currentNode = this.head
+        while (counter < index) {
+          currentNode = currentNode.next
+          counter++
+        }
+      } else {
+        let counter = this.length - 1
+        currentNode = this.tail
+        while(counter > index) {
+          currentNode = currentNode.prev
+          counter--
+        }
+      }
+      currentNode.next = null
+      currentNode.prev = null
+      return currentNode
+    }
+  }
+
+
   // set - update an item by the index
   // insert - insert an item to the specific index
   // remove - remove an item by the index
@@ -129,13 +163,16 @@ dll.push('2')
 dll.push('3')
 console.log(dll)
 
+// Get test
+console.log(dll.get(0))
+
 // Shift test
-console.log(dll.shift())
-console.log(dll)
-console.log(dll.shift())
-console.log(dll)
-console.log(dll.shift())
-console.log(dll)
+// console.log(dll.shift())
+// console.log(dll)
+// console.log(dll.shift())
+// console.log(dll)
+// console.log(dll.shift())
+// console.log(dll)
 
 // Unshift test
 // dll.unshift(4)
