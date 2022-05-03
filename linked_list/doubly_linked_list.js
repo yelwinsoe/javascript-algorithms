@@ -120,11 +120,11 @@ class DoublyLinkedList {
   // if index less than half length start the loop from head else start from  tail until the correct index is arrive
   // return the node
   get(index) {
-    if (!this.head) return undefined
-    if (this.length === 1) return this.head
+    if (!this.head) return null
+    if (index < 0 || index >= this.length) return null
     else {
       let currentNode
-      if (index < Math.floor(this.length/2)) {
+      if (index < this.length/2) {
         let counter = 0
         currentNode = this.head
         while (counter < index) {
@@ -139,17 +139,97 @@ class DoublyLinkedList {
           counter--
         }
       }
-      currentNode.next = null
-      currentNode.prev = null
       return currentNode
     }
   }
 
 
   // set - update an item by the index
+  // Pseudocode
+  // create a variable which is the result of get method using the index
+  // if the get method return valid Node, set the value of the node passed to the function
+  // return true
+  set(index, val) {
+    let tempNode = this.get(index)
+    if (tempNode) {
+      tempNode.val = val
+      return true
+    }
+    return false
+  }
+
   // insert - insert an item to the specific index
+  // Pseudocode
+  // return false if index is less than zero or greater than or equal to the length
+  // if the index is 0 then use unshift
+  // if the index is the same as the length, use push
+  // use the get method to access the index -1
+  // set the next and prev properties on the correct nodes to link everything together
+  // increament the length and return true
+  insert(index, val) {
+    if (index < 0 || index >= this.length) return false
+    if (index == 0) return !!this.unshift(val)
+    if (index == this.length) return !!this.push(val)
+
+    let newNode = new Node(val)
+    let beforeNode = this.get(index - 1)
+    let afterNode = beforeNode.next
+
+    beforeNode.next = newNode
+    newNode.prev = beforeNode
+    newNode.next = afterNode
+    afterNode.prev = newNode
+    
+    this.length++
+    return true
+  }
+
   // remove - remove an item by the index
+  // Pseudocode
+  // return false if index is less than zero or greater than or equal to the length
+  // if the index 0 then use shift
+  // if the inde is same as the length - 1, use pop
+  // use the get method to get the item to be removed
+  // update the next and prev properties to remove the found node
+  // set next and prev null on the found node
+  // drecrease the length and return found node
+  remove(index) {
+    if (index < 0 || index >= this.length) return false
+    if (index == 0) return this.shift()
+    if (index == this.length) return this.pop()
+    
+    let foundNode = this.get(index)
+    let beforeNode = foundNode.prev
+    let afterNode = foundNode.next
+    beforeNode.next = afterNode
+    afterNode.prev = beforeNode
+    foundNode.next = null
+    foundNode.prev = null
+    this.length--
+    return foundNode
+  }
+
+
   // reverse - reverse the list
+  // Pseudocode
+  // set head as tail and tail as head
+  // loop through from head using prev
+  // update next and prev correctly
+  reverse() {
+    if (this.length <= 1) return this
+    
+    this.tail = this.head
+    let current = this.head
+    while (current) {
+      let true_next = current.next
+      current.next = current.prev
+      current.prev = true_next
+
+      this.head = current
+      current = true_next
+    }
+    return this
+  }
 }
 
 let dll = new DoublyLinkedList()
@@ -163,8 +243,24 @@ dll.push('2')
 dll.push('3')
 console.log(dll)
 
+// Reverse test
+console.log(dll.reverse())
+console.log(dll)
+
+// // Remove test
+// console.log(dll.remove(1))
+// console.log(dll)
+
+// // Insert test
+// dll.insert(1, 4)
+// console.log(dll)
+
+// // Set test
+// console.log(dll.set(0, 4))
+// console.log(dll)
+
 // Get test
-console.log(dll.get(0))
+// console.log(dll.get(0))
 
 // Shift test
 // console.log(dll.shift())
