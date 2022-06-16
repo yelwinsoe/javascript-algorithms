@@ -11,7 +11,7 @@
 // Using array to store heaps
 // For example = [100, 19, 36, 17, 12, 25, 5, 9, 15, 6, 11]
 // left child node = 2n + 1
-// right child node = 3n + 1
+// right child node = 2n + 2
 // Parent node = (n-1)/2  (floored)
 
 class MaxBinaryHeap {
