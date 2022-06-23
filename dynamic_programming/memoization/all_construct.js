@@ -17,13 +17,9 @@ const allConstruct = (target, words, memo = {}) => {
   return result
 }
 
-// Brute force
+// Brute force / Memoized
 // time: O(n^m * m)
-// space: O(m^2)
-
-// Memoized
-// time: O(n * m^2)
-// space: O(m^2)
+// space: O(m)
 
 console.log(allConstruct('purple', ['purp', 'p', 'ur', 'le', 'purpl']))
 // [
