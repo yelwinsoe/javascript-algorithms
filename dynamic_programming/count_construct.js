@@ -1,18 +1,18 @@
 const canConstruct = (target, words, memo = {}) => {
-  if (target === '') return true
+  if (target === '') return 1
   if (target in memo) return memo[target]
+
+  let totalCount = 0
 
   for (let w of words) {
     if (target.indexOf(w) === 0) {
       memo[target] = canConstruct(target.slice(w.length), words, memo)
-      if (memo[target]) {
-        return true
-      }
+      totalCount += memo[target]
     }
   }
 
-  memo[target] = false
-  return false
+  memo[target] = totalCount
+  return totalCount
 }
 
 // Brute force
@@ -23,7 +23,7 @@ const canConstruct = (target, words, memo = {}) => {
 // time: O(n * m^2)
 // space: O(m^2)
 
-console.log(canConstruct('skateboard', ['bo', 'rd', 'ate', 't', 'ska', 'sk', 'boar'])) // true
-console.log(canConstruct('', ['cat', 'dog'])) // true
-console.log(canConstruct('tiger', ['cat', 'dog'])) // false
+console.log(canConstruct('purple', ['purp', 'p', 'ur', 'le', 'purpl'])) // 2
+console.log(canConstruct('abcdef', ['ab', 'abc', 'cd', 'def', 'abcd'])) // 1
+console.log(canConstruct('enterapotentpot', ['a', 'p', 'ent', 'enter', 'ot', 'o', 't'])) // 4
 console.log(canConstruct('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef', ['e', 'ee', 'eeee', 'eeeee', 'eeeee'])) // false
